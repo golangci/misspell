@@ -33,3 +33,18 @@ func TestWordSort(t *testing.T) {
 		t.Errorf("File issue instead.")
 	}
 }
+
+func TestWordConsistent(t *testing.T) {
+	incorrectWords := make(map[string]bool)
+	for i := 0; i < len(DictMain); i += 2 {
+		incorrectWords[DictMain[i]] = true
+	}
+
+	for i := 1; i < len(DictMain); i += 2 {
+		if incorrectWords[DictMain[i]] {
+			t.Errorf("%s is listed as both correct and incorrect", DictMain[i])
+			// Only report each word once.
+			delete(incorrectWords, DictMain[i])
+		}
+	}
+}

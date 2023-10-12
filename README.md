@@ -10,7 +10,7 @@ Correct commonly misspelled English words... quickly.
 If you just want a binary and to start using `misspell`:
 
 ```bash
-url -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b ./bin ${MISSPELL_VERSION}
+curl -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b ./bin ${MISSPELL_VERSION}
 ```
 
 Both will install as `./bin/misspell`.  

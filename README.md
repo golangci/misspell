@@ -10,7 +10,7 @@ Correct commonly misspelled English words... quickly.
 If you just want a binary and to start using `misspell`:
 
 ```bash
-url -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b ./bin ${MISSSPELL_VERSION}
+curl -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b ./bin ${MISSPELL_VERSION}
 ```
 
 Both will install as `./bin/misspell`.  
@@ -27,7 +27,7 @@ go install github.com/golangci/misspell/cmd/misspell@latest
 Also, if you like to live dangerously, one could do
 
 ```bash
-url -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b $(go env GOPATH)/bin ${MISSSPELL_VERSION}
+curl -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b $(go env GOPATH)/bin ${MISSPELL_VERSION}
 ```
 
 ### Usage
@@ -174,9 +174,7 @@ zebra
 <a name="golang"></a>
 ### Are there special rules for golang source files?
 
-Yes!  If the file ends in `.go`, then misspell will only check spelling in comments.
-
-If you want to force a file to be checked as a golang source, use `-source=go` on the command line.  
+yes, if you want to force a file to be checked as a golang source, use `-source=go` on the command line.  
 Conversely, you can check a golang source as if it were pure text by using `-source=text`.  
 You might want to do this since many variable names have misspellings in them!
 

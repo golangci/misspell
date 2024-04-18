@@ -204,10 +204,10 @@ func main() {
 		log.Fatalf("Mode must be one of auto=guess, go=golang source, text=plain or markdown-like text")
 	}
 
-	// we can't just write to os.Stdout directly since we have multiple goroutine
-	// all writing at the same time causing broken output.
+	// We can't just write to os.Stdout directly
+	// since we have multiple goroutine all writing at the same time causing broken output.
 	// Log is routine safe.
-	// we see it, so it doesn't use a prefix or include a time stamp.
+	// We see it, so it doesn't use a prefix or include a time stamp.
 	switch {
 	case *quietFlag || *outFlag == os.DevNull:
 		stdout = log.New(io.Discard, "", 0)
@@ -274,27 +274,26 @@ func main() {
 
 	// stdin/stdout
 	if len(args) == 0 {
-		// if we are working with pipes/stdin/stdout
-		// there is no concurrency, so we can directly
-		// send data to the writers
+		// If we are working with pipes/stdin/stdout there is no concurrency,
+		// so we can directly send data to the writers.
 		var fileout io.Writer
 		var errout io.Writer
 		switch *writeit {
 		case true:
-			// if we ARE writing the corrected stream
-			// the corrected stream goes to stdout
-			// and the misspelling errors goes to stderr
+			// If we are writing the corrected stream,
+			// the corrected stream goes to stdout,
+			// and the misspelling errors goes to stderr,
 			// so we can do something like this:
-			// curl something | misspell -w | gzip > afile.gz
+			//    curl something | misspell -w | gzip > afile.gz
 			fileout = os.Stdout
 			errout = os.Stderr
 		case false:
-			// if we are not writing out the corrected stream
-			// then work just like files.  Misspelling errors
-			// are sent to stdout
+			// If we are not writing out the corrected stream then work just like files.
+			// Misspelling errors are sent to stdout.
 			fileout = io.Discard
 			errout = os.Stdout
 		}
+
 		count := 0
 		next := func(diff misspell.Diff) {
 			count++

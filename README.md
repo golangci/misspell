@@ -43,25 +43,28 @@ your.txt:42:10 found "langauge" a misspelling of "language"
 $ misspell -help
 Usage of misspell:
   -debug
-    	Debug matching, very slow
+        Debug matching, very slow
+  -dict string
+        User defined corrections file path (.csv). CSV format: typo,fix
   -error
-    	Exit with 2 if misspelling found
+        Exit with 2 if misspelling found
   -f string
-    	'csv', 'sqlite3' or custom Golang template for output
+        'csv', 'sqlite3' or custom Golang template for output
   -i string
-    	ignore the following corrections, comma-separated
+        ignore the following corrections, comma-separated
   -j int
-    	Number of workers, 0 = number of CPUs
+        Number of workers, 0 = number of CPUs
   -legal
-    	Show legal information and exit
+        Show legal information and exit
   -locale string
-    	Correct spellings using locale preferences for US or UK.  Default is to use a neutral variety of English.  Setting locale to US will correct the British spelling of 'colour' to 'color'
+        Correct spellings using locale preferences for US or UK.  Default is to use a neutral variety of English.  Setting locale to US will correct the British spelling of 'colour' to 'color'
   -o string
-    	output file or [stderr|stdout|] (default "stdout")
-  -q	Do not emit misspelling output
+        output file or [stderr|stdout|] (default "stdout")
+  -q    Do not emit misspelling output
   -source string
-    	Source mode: auto=guess, go=golang source, text=plain or markdown-like text (default "auto")
-  -w	Overwrite file with corrections (default is just to display)
+        Source mode: text (default), go (comments only) (default "text")
+  -v    Show version and exit
+  -w    Overwrite file with corrections (default is just to display)
 ```
 
 ## FAQ

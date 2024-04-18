@@ -3,6 +3,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/csv"
 	"flag"
 	"fmt"
 	"io"
@@ -105,18 +106,20 @@ func worker(writeit bool, r *misspell.Replacer, mode string, files <-chan string
 //nolint:funlen,nestif,gocognit,gocyclo,maintidx // TODO(ldez) must be fixed.
 func main() {
 	t := time.Now()
+
 	var (
-		workers     = flag.Int("j", 0, "Number of workers, 0 = number of CPUs")
-		writeit     = flag.Bool("w", false, "Overwrite file with corrections (default is just to display)")
-		quietFlag   = flag.Bool("q", false, "Do not emit misspelling output")
-		outFlag     = flag.String("o", "stdout", "output file or [stderr|stdout|]")
-		format      = flag.String("f", "", "'csv', 'sqlite3' or custom Golang template for output")
-		ignores     = flag.String("i", "", "ignore the following corrections, comma-separated")
-		locale      = flag.String("locale", "", "Correct spellings using locale preferences for US or UK.  Default is to use a neutral variety of English.  Setting locale to US will correct the British spelling of 'colour' to 'color'")
-		mode        = flag.String("source", "text", "Source mode: text (default), go (comments only)")
-		debugFlag   = flag.Bool("debug", false, "Debug matching, very slow")
-		exitError   = flag.Bool("error", false, "Exit with 2 if misspelling found")
-		showVersion = flag.Bool("v", false, "Show version and exit")
+		workers      = flag.Int("j", 0, "Number of workers, 0 = number of CPUs")
+		writeit      = flag.Bool("w", false, "Overwrite file with corrections (default is just to display)")
+		quietFlag    = flag.Bool("q", false, "Do not emit misspelling output")
+		outFlag      = flag.String("o", "stdout", "output file or [stderr|stdout|]")
+		format       = flag.String("f", "", "'csv', 'sqlite3' or custom Golang template for output")
+		ignores      = flag.String("i", "", "ignore the following corrections, comma-separated")
+		userDictPath = flag.String("dict", "", "User defined corrections file path (.csv). CSV format: typo,fix")
+		locale       = flag.String("locale", "", "Correct spellings using locale preferences for US or UK.  Default is to use a neutral variety of English.  Setting locale to US will correct the British spelling of 'colour' to 'color'")
+		mode         = flag.String("source", "text", "Source mode: text (default), go (comments only)")
+		debugFlag    = flag.Bool("debug", false, "Debug matching, very slow")
+		exitError    = flag.Bool("error", false, "Exit with 2 if misspelling found")
+		showVersion  = flag.Bool("v", false, "Show version and exit")
 
 		showLegal = flag.Bool("legal", false, "Show legal information and exit")
 	)
@@ -140,6 +143,7 @@ func main() {
 		Replacements: misspell.DictMain,
 		Debug:        *debugFlag,
 	}
+
 	//
 	// Figure out regional variations
 	//
@@ -154,6 +158,32 @@ func main() {
 		log.Fatalf("Help wanted.  https://github.com/client9/misspell/issues/6")
 	default:
 		log.Fatalf("Unknown locale: %q", *locale)
+	}
+
+	//
+	// Load user defined words
+	//
+	if *userDictPath != "" {
+		file, err := os.Open(*userDictPath)
+		if err != nil {
+			log.Fatalf("Failed to load user defined corrections: %v, err: %v", *userDictPath, err)
+		}
+		defer file.Close()
+
+		reader := csv.NewReader(file)
+		reader.FieldsPerRecord = 2
+
+		data, err := reader.ReadAll()
+		if err != nil {
+			log.Fatalf("reading user defined corrections: %v", err)
+		}
+
+		var userDict []string
+		for _, row := range data {
+			userDict = append(userDict, row...)
+		}
+
+		r.AddRuleList(userDict)
 	}
 
 	//

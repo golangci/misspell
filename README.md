@@ -49,7 +49,7 @@ Usage of misspell:
   -f string
     	'csv', 'sqlite3' or custom Golang template for output
   -i string
-    	ignore the following corrections, comma separated
+    	ignore the following corrections, comma-separated
   -j int
     	Number of workers, 0 = number of CPUs
   -legal
@@ -265,12 +265,12 @@ To just print probable misspellings:
 <a name="problem"></a>
 ### What problem does this solve?
 
-This corrects commonly misspelled English words in computer source code, and other text-based formats (`.txt`, `.md`, etc).
+This corrects commonly misspelled English words in computer source code, and other text-based formats (`.txt`, `.md`, etc.).
 
 It is designed to run quickly,
 so it can be used as a [pre-commit hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) with minimal burden on the developer.
 
-It does not work with binary formats (e.g. Word, etc).
+It does not work with binary formats (e.g. Word, etc.).
 
 It is not a complete spell-checking program nor a grammar checker.
 
@@ -287,7 +287,7 @@ They all work but had problems that prevented me from using them at scale:
 
 * slow, all of the above check one misspelling at a time (i.e. linear) using regexps
 * not MIT/Apache2 licensed (or equivalent)
-* have dependencies that don't work for me (python3, bash, linux sed, etc)
+* have dependencies that don't work for me (python3, bash, linux sed, etc.)
 * don't understand American vs. British English and sometimes makes unwelcome "corrections"
 
 That said, they might be perfect for you and many have more features than this project!
@@ -302,7 +302,7 @@ This uses the mighty power of golang's [strings.Replacer](https://golang.org/pkg
 which is an implementation or variation of the [Aho–Corasick algorithm](https://en.wikipedia.org/wiki/Aho–Corasick_algorithm).
 This makes multiple substring matches *simultaneously*.
 
-In addition, this uses multiple CPU cores to work on multiple files.
+It also uses multiple CPU cores to work on multiple files concurrently.
 
 <a name="issues"></a>
 ### What problems does it have?
@@ -328,9 +328,9 @@ Thanks!
 ### Why is it making mistakes or missing items in golang files?
 
 The matching function is *case-sensitive*,
-so variable names that are multiple worlds either in all-upper or all-lower case sometimes can cause false positives.  
+so variable names that are multiple worlds either in all-uppercase or all-lowercase case sometimes can cause false positives.  
 For instance a variable named `bodyreader` could trigger a false positive since `yrea` is in the middle that could be corrected to `year`.
-Other problems happen if the variable name uses a English contraction that should use an apostrophe.  
+Other problems happen if the variable name uses an English contraction that should use an apostrophe.  
 The best way of fixing this is to use the [Effective Go naming conventions](https://golang.org/doc/effective_go.html#mixed-caps)
 and use [camelCase](https://en.wikipedia.org/wiki/CamelCase) for variable names.  
 You can check your code using [golint](https://github.com/golang/lint)
@@ -341,7 +341,7 @@ You can check your code using [golint](https://github.com/golang/lint)
 The main code is [MIT](https://github.com/golangci/misspell/blob/master/LICENSE).
 
 Misspell also makes uses of the Golang standard library and contains a modified version of Golang's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
-which are covered under a [BSD License](https://github.com/golang/go/blob/master/LICENSE).  
+which is covered under a [BSD License](https://github.com/golang/go/blob/master/LICENSE).  
 Type `misspell -legal` for more details or see [legal.go](https://github.com/golangci/misspell/blob/master/legal.go)
 
 <a name="words"></a>
@@ -349,7 +349,7 @@ Type `misspell -legal` for more details or see [legal.go](https://github.com/gol
 
 It started with a word list from
 [Wikipedia](https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines).
-Unfortunately, this list had to be highly edited as many of the words are obsolete or based from mistakes on mechanical typewriters (I'm guessing).
+Unfortunately, this list had to be highly edited as many of the words are obsolete or based on mistakes on mechanical typewriters (I'm guessing).
 
 Additional words were added based on actually mistakes seen in the wild (meaning self-generated).
 
@@ -366,7 +366,7 @@ Corrections and help welcome.
 <a name="otherideas"></a>
 ### What are some other enhancements that could be done?
 
-Here's some ideas for enhancements:
+Here are some ideas for enhancements:
 
 *Capitalization of proper nouns* could be done (e.g. weekday and month names, country names, language names)
 
@@ -376,6 +376,6 @@ While "advisor" is not wrong, the opinionated US  locale would correct "advisor"
 
 *Versioning*  Some type of versioning is needed so reporting mistakes and errors is easier.
 
-*Feedback*  Mistakes would be sent to some server for agregation and feedback review.
+*Feedback*  Mistakes would be sent to some server for aggregation and feedback review.
 
 *Contractions and Apostrophes* This would optionally correct "isnt" to "isn't", etc.

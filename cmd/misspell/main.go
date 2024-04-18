@@ -111,7 +111,7 @@ func main() {
 		quietFlag   = flag.Bool("q", false, "Do not emit misspelling output")
 		outFlag     = flag.String("o", "stdout", "output file or [stderr|stdout|]")
 		format      = flag.String("f", "", "'csv', 'sqlite3' or custom Golang template for output")
-		ignores     = flag.String("i", "", "ignore the following corrections, comma separated")
+		ignores     = flag.String("i", "", "ignore the following corrections, comma-separated")
 		locale      = flag.String("locale", "", "Correct spellings using locale preferences for US or UK.  Default is to use a neutral variety of English.  Setting locale to US will correct the British spelling of 'colour' to 'color'")
 		mode        = flag.String("source", "text", "Source mode: text (default), go (comments only)")
 		debugFlag   = flag.Bool("debug", false, "Debug matching, very slow")

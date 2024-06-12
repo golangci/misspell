@@ -8,8 +8,8 @@ on:
 
 jobs:
 
-  main:
-    name: Main Process
+  check-code:
+    name: Check code
     runs-on: ubuntu-latest
     env:
       GO_VERSION: stable
@@ -44,3 +44,13 @@ jobs:
 
       - name: Make
         run: make
+
+  check-local-install-script:
+    name: Installation script (local)
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Check installation script
+        run: cat ./install-misspell.sh | sh -s -- -d -b "./install-misspell"

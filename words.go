@@ -28019,6 +28019,7 @@ var DictMain = []string{
 	"omre", "more",
 	"onot", "note",
 	"onyl", "only",
+	"onlu", "only",
 	"owrk", "work",
 	"peom", "poem",
 	"pich", "pitch",

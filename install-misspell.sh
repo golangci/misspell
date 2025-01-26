@@ -236,6 +236,7 @@ untar() {
       ;;
   esac
 }
+
 http_download_curl() {
   local_file=$1
   source_url=$2
@@ -249,14 +250,12 @@ http_download_curl() {
       curl -sL -o "$local_file" "$source_url"
     else
       curl -sL -H "$header" -o "$local_file" "$source_url"
-
-      nf=$(cat "$local_file" | jq -r '.error // ""')
-      if  [ ! -z "$nf" ]; then
+      nf=$(jq -r '.error // ""' "$local_file")
+      if  [ -n "$nf" ]; then
         log_debug "http_download_curl received an error: $nf"
         return 1
       fi
     fi
-
     return 0
   fi
 
@@ -271,6 +270,7 @@ http_download_curl() {
   fi
   return 0
 }
+
 http_download_wget() {
   local_file=$1
   source_url=$2
@@ -357,8 +357,8 @@ EOF
 
 PROJECT_NAME="misspell"
 OWNER=golangci
-REPO="misspell"
-BINARY=misspell
+REPO=$PROJECT_NAME
+BINARY=$PROJECT_NAME
 FORMAT=tar.gz
 OS=$(uname_os)
 ARCH=$(uname_arch)

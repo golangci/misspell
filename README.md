@@ -207,7 +207,7 @@ It doesn't work well for Python and Bash.
 <a name="csv"></a>
 ### How Can I Get CSV Output?
 
-Using `-f csv`, the output is standard comma-seprated values with headers in the first row.
+Using `-f csv`, the output is standard comma-separated values with headers in the first row.
 
 ```console
 $ misspell -f csv *
@@ -244,7 +244,7 @@ $ sqlite3 -init /tmp/misspell.sql :memory: 'select count(*) from misspell'
 1
 ```
 
-With some tricks you can directly pipe output to sqlite3 by using `-init /dev/stdin`:
+With some tricks you can directly pipe output to SQLite3 by using `-init /dev/stdin`:
 
 ```
 misspell -f sqlite * | sqlite3 -init /dev/stdin -column -cmd '.width 60 15' ':memory' \
@@ -307,7 +307,7 @@ They all work but had problems that prevented me from using them at scale:
 
 * slow, all of the above check one misspelling at a time (i.e. linear) using regexps
 * not MIT/Apache2 licensed (or equivalent)
-* have dependencies that don't work for me (python3, bash, linux sed, etc.)
+* have dependencies that don't work for me (python3, BASH, GNU sed, etc.)
 * don't understand American vs. British English and sometimes makes unwelcome "corrections"
 
 That said, they might be perfect for you and many have more features than this project!

@@ -1,5 +1,33 @@
-run:
-  timeout: 2m
+linters:
+  enable-all: true
+  disable:
+    - exportloopref # deprecated
+    - rowserrcheck # not relevant (SQL)
+    - sqlclosecheck # not relevant (SQL)
+    - cyclop # duplicate of gocyclo
+    - dupl
+    - exhaustive
+    - exhaustruct
+    - forbidigo
+    - gochecknoglobals
+    - gochecknoinits
+    - err113
+    - mnd
+    - lll
+    - nilnil
+    - nlreturn
+    - paralleltest
+    - prealloc
+    - testpackage
+    - tparallel
+    - varnamelen
+    - wrapcheck
+    - wsl
+    - misspell
+    - gosec # FIXME(ldez) must be fixed
+    - errcheck # FIXME(ldez) must be fixed
+    - nonamedreturns # FIXME(ldez) must be fixed
+    - nakedret # FIXME(ldez) must be fixed
 
 linters-settings:
   govet:
@@ -51,48 +79,6 @@ linters-settings:
       - '^spew\.Print(f|ln)?$'
       - '^spew\.Dump$'
 
-linters:
-  enable-all: true
-  disable:
-    - deadcode # deprecated
-    - exhaustivestruct # deprecated
-    - golint # deprecated
-    - ifshort # deprecated
-    - interfacer # deprecated
-    - maligned # deprecated
-    - nosnakecase # deprecated
-    - scopelint # deprecated
-    - scopelint # deprecated
-    - structcheck # deprecated
-    - varcheck # deprecated
-    - execinquery # not relevant (SQL)
-    - rowserrcheck # not relevant (SQL)
-    - sqlclosecheck # not relevant (SQL)
-    - cyclop # duplicate of gocyclo
-    - dupl
-    - exhaustive
-    - exhaustruct
-    - forbidigo
-    - gochecknoglobals
-    - gochecknoinits
-    - goerr113
-    - gomnd
-    - lll
-    - nilnil
-    - nlreturn
-    - paralleltest
-    - prealloc
-    - testpackage
-    - tparallel
-    - varnamelen
-    - wrapcheck
-    - wsl
-    - misspell
-    - gosec # FIXME(ldez) must be fixed
-    - errcheck # FIXME(ldez) must be fixed
-    - nonamedreturns # FIXME(ldez) must be fixed
-    - nakedret # FIXME(ldez) must be fixed
-
 issues:
   exclude-use-default: false
   max-issues-per-linter: 0
@@ -105,3 +91,6 @@ issues:
       linters:
         - funlen
         - goconst
+
+run:
+  timeout: 2m

@@ -10,13 +10,6 @@ import (
 	"text/scanner"
 )
 
-func max(x, y int) int {
-	if x > y {
-		return x
-	}
-	return y
-}
-
 func inArray(haystack []string, needle string) bool {
 	return slices.ContainsFunc(haystack, func(word string) bool {
 		return strings.EqualFold(needle, word)

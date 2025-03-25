@@ -170,7 +170,7 @@ Loop:
 	// faster that making a bytes.Buffer and bufio.ReadString
 	outlines := strings.SplitAfter(output, "\n")
 	inlines := strings.SplitAfter(input, "\n")
-	for i := 0; i < len(inlines); i++ {
+	for i := range inlines {
 		if inlines[i] == outlines[i] {
 			buf.WriteString(outlines[i])
 			continue
@@ -194,7 +194,7 @@ func (r *Replacer) Replace(input string) (string, []Diff) {
 	// faster that making a bytes.Buffer and bufio.ReadString
 	outlines := strings.SplitAfter(output, "\n")
 	inlines := strings.SplitAfter(input, "\n")
-	for i := 0; i < len(inlines); i++ {
+	for i := range inlines {
 		if inlines[i] == outlines[i] {
 			buf.WriteString(outlines[i])
 			continue

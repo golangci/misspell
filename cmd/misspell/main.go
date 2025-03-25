@@ -164,10 +164,10 @@ func main() {
 		log.Fatal(err)
 	}
 
-	switch {
-	case *format == outputFormatCSV:
+	switch *format {
+	case outputFormatCSV:
 		output.Println(csvHeader)
-	case *format == outputFormatSQLite || *format == outputFormatSQLite3:
+	case outputFormatSQLite, outputFormatSQLite3:
 		output.Println(sqliteHeader)
 	}
 
@@ -241,7 +241,7 @@ func main() {
 	c := make(chan string, 64)
 	results := make(chan int, *workers)
 
-	for i := 0; i < *workers; i++ {
+	for range *workers {
 		go worker(*writeit, &r, *mode, c, results)
 	}
 
@@ -256,7 +256,7 @@ func main() {
 	close(c)
 
 	count := 0
-	for i := 0; i < *workers; i++ {
+	for range *workers {
 		changed := <-results
 		count += changed
 	}

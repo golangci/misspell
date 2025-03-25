@@ -1,4 +1,5 @@
 name: "Post release"
+
 on:
   release:
     types:
@@ -13,4 +14,4 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - run: curl -sSfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b "./install-misspell"
+      - run: curl -sSfL https://raw.githubusercontent.com/golangci/misspell/HEAD/install-misspell.sh | sh -s -- -b "./install-misspell"

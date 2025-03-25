@@ -1,4 +1,5 @@
 name: "Release a tag"
+
 on:
   push:
     tags:

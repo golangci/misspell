@@ -5,6 +5,8 @@ on:
     branches:
       - master
   pull_request:
+    branches:
+      - master
 
 jobs:
 
@@ -13,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GO_VERSION: stable
-      GOLANGCI_LINT_VERSION: v1.63.4
+      GOLANGCI_LINT_VERSION: v2.0
       CGO_ENABLED: 0
 
     steps:
@@ -34,14 +36,16 @@ jobs:
           git diff --exit-code go.mod
           git diff --exit-code go.sum
 
-      # https://golangci-lint.run/usage/install#other-ci
-      - name: Install golangci-lint ${{ env.GOLANGCI_LINT_VERSION }}
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin ${GOLANGCI_LINT_VERSION}
-          golangci-lint --version
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: ${{ env.GOLANGCI_LINT_VERSION }}
 
-      - name: Make
-        run: make
+      - name: Tests
+        run: make test
+
+      - name: Build
+        run: make build
 
   check-local-install-script:
     name: Installation script (local)

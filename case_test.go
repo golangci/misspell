@@ -19,7 +19,6 @@ func TestCaseStyle(t *testing.T) {
 	}
 
 	for _, test := range testCases {
-		test := test
 		t.Run(test.word, func(t *testing.T) {
 			t.Parallel()
 
@@ -40,7 +39,6 @@ func TestCaseVariations(t *testing.T) {
 	}
 
 	for _, test := range testCases {
-		test := test
 		t.Run(test.word, func(t *testing.T) {
 			t.Parallel()
 

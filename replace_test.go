@@ -37,7 +37,6 @@ func TestReplaceLocale(t *testing.T) {
 	r.Compile()
 
 	for _, test := range cases {
-		test := test
 		t.Run(test.orig, func(t *testing.T) {
 			t.Parallel()
 
@@ -70,7 +69,6 @@ func TestReplace(t *testing.T) {
 	r := New()
 
 	for _, test := range cases {
-		test := test
 		t.Run(test.orig, func(t *testing.T) {
 			t.Parallel()
 

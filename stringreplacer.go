@@ -177,7 +177,7 @@ func makeGenericReplacer(oldnew []string) *genericReplacer {
 	// Find each byte used, then assign them each an index.
 	for i := 0; i < len(oldnew); i += 2 {
 		key := strings.ToLower(oldnew[i])
-		for j := 0; j < len(key); j++ {
+		for j := range len(key) {
 			r.mapping[key[j]] = 1
 		}
 	}
@@ -211,7 +211,7 @@ func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen 
 	node := &r.root
 	n := 0
 	for node != nil {
-		if node.priority > bestPriority && !(ignoreRoot && node == &r.root) {
+		if node.priority > bestPriority && (!ignoreRoot || node != &r.root) {
 			bestPriority = node.priority
 			val = node.value
 			keylen = n

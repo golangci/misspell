@@ -34,7 +34,7 @@ func BenchmarkCleanString(b *testing.B) {
 	var updated string
 	var diffs []Diff
 	var count int
-	for n := 0; n < b.N; n++ {
+	for n := 0; n < b.N; n++ { //nolint:intrange // use Loop -> go1.24
 		updated, diffs = rep.Replace(sampleClean)
 		count += len(diffs)
 	}
@@ -55,7 +55,7 @@ func BenchmarkCleanStream(b *testing.B) {
 	tmpCount = 0
 	buf := bytes.NewBufferString(sampleClean)
 	out := bytes.NewBuffer(make([]byte, 0, len(sampleClean)+100))
-	for n := 0; n < b.N; n++ {
+	for n := 0; n < b.N; n++ { //nolint:intrange // use Loop -> go1.24
 		buf.Reset()
 		buf.WriteString(sampleClean)
 		out.Reset()
@@ -70,7 +70,7 @@ func BenchmarkCleanStreamDiscard(b *testing.B) {
 
 	buf := bytes.NewBufferString(sampleClean)
 	tmpCount = 0
-	for n := 0; n < b.N; n++ {
+	for n := 0; n < b.N; n++ { //nolint:intrange // use Loop -> go1.24
 		buf.Reset()
 		buf.WriteString(sampleClean)
 		rep.ReplaceReader(buf, io.Discard, discardDiff)
@@ -84,7 +84,7 @@ func BenchmarkDirtyString(b *testing.B) {
 	var updated string
 	var diffs []Diff
 	var count int
-	for n := 0; n < b.N; n++ {
+	for n := 0; n < b.N; n++ { //nolint:intrange // use Loop -> go1.24
 		updated, diffs = rep.Replace(sampleDirty)
 		count += len(diffs)
 	}
@@ -98,7 +98,7 @@ func BenchmarkCompile(b *testing.B) {
 	r := New()
 	b.ReportAllocs()
 	b.ResetTimer()
-	for n := 0; n < b.N; n++ {
+	for n := 0; n < b.N; n++ { //nolint:intrange // use Loop -> go1.24
 		r.Compile()
 	}
 }

@@ -130,7 +130,6 @@ func TestFalsePositives(t *testing.T) {
 	r.Debug = true
 
 	for _, test := range testCases {
-		test := test
 		t.Run(test, func(t *testing.T) {
 			t.Parallel()
 

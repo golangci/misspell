@@ -43,7 +43,6 @@ func TestParseMatchSingle(t *testing.T) {
 	}
 
 	for _, test := range testCases {
-		test := test
 		t.Run(test.pattern, func(t *testing.T) {
 			t.Parallel()
 

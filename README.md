@@ -1,7 +1,7 @@
 [![Main](https://github.com/golangci/misspell/actions/workflows/ci.yml/badge.svg)](https://github.com/golangci/misspell/actions/workflows/ci.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/golangci/misspell)](https://goreportcard.com/report/github.com/golangci/misspell)
 [![Go Reference](https://pkg.go.dev/badge/github.com/golangci/misspell.svg)](https://pkg.go.dev/github.com/golangci/misspell)
-[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.golangci.com/golangci/misspell/master/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://raw.golangci.com/golangci/misspell/head/LICENSE)
 
 Correct commonly misspelled English words... quickly.
 
@@ -10,7 +10,7 @@ Correct commonly misspelled English words... quickly.
 If you just want a binary and to start using `misspell`:
 
 ```bash
-curl -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b ./bin ${MISSPELL_VERSION}
+curl -sfL https://raw.githubusercontent.com/golangci/misspell/head/install-misspell.sh | sh -s -- -b ./bin ${MISSPELL_VERSION}
 ```
 
 Both will install as `./bin/misspell`.  
@@ -27,7 +27,7 @@ go install github.com/golangci/misspell/cmd/misspell@latest
 Also, if you like to live dangerously, one could do
 
 ```bash
-curl -sfL https://raw.githubusercontent.com/golangci/misspell/master/install-misspell.sh | sh -s -- -b $(go env GOPATH)/bin ${MISSPELL_VERSION}
+curl -sfL https://raw.githubusercontent.com/golangci/misspell/head/install-misspell.sh | sh -s -- -b $(go env GOPATH)/bin ${MISSPELL_VERSION}
 ```
 
 ### Usage
@@ -358,11 +358,11 @@ You can check your code using [golint](https://github.com/golang/lint)
 <a name="license"></a>
 ### What license is this?
 
-The main code is [MIT](https://github.com/golangci/misspell/blob/master/LICENSE).
+The main code is [MIT](https://github.com/golangci/misspell/blob/head/LICENSE).
 
 Misspell also makes uses of the Golang standard library and contains a modified version of Golang's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
-which is covered under a [BSD License](https://github.com/golang/go/blob/master/LICENSE).  
-Type `misspell -legal` for more details or see [legal.go](https://github.com/golangci/misspell/blob/master/legal.go)
+which is covered under a [BSD License](https://github.com/golang/go/blob/head/LICENSE).  
+Type `misspell -legal` for more details or see [legal.go](https://github.com/golangci/misspell/blob/head/legal.go)
 
 <a name="words"></a>
 ### Where do the word lists come from?

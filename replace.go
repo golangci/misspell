@@ -78,59 +78,6 @@ func (r *Replacer) Compile() {
 	r.engine = NewStringReplacer(r.Replacements...)
 }
 
-/*
-line1 and line2 are different
-extract words from each line1
-
-replace word -> newword
-if word == new-word
-
-	continue
-
-if new-word in list of replacements
-
-	continue
-
-new word not original, and not in list of replacements some substring got mixed up.  UNdo.
-*/
-func (r *Replacer) recheckLine(s string, lineNum int, buf io.Writer, next func(Diff)) {
-	first := 0
-	redacted := RemoveNotWords(s)
-
-	idx := wordRegexp.FindAllStringIndex(redacted, -1)
-	for _, ab := range idx {
-		word := s[ab[0]:ab[1]]
-		newword := r.engine.Replace(word)
-		if newword == word {
-			// no replacement done
-			continue
-		}
-
-		// ignore camelCase words
-		// https://github.com/client9/misspell/issues/113
-		if CaseStyle(word) == CaseUnknown {
-			continue
-		}
-
-		if StringEqualFold(r.corrected[strings.ToLower(word)], newword) {
-			// word got corrected into something we know
-			io.WriteString(buf, s[first:ab[0]])
-			io.WriteString(buf, newword)
-			first = ab[1]
-			next(Diff{
-				FullLine:  s,
-				Line:      lineNum,
-				Original:  word,
-				Corrected: newword,
-				Column:    ab[0],
-			})
-			continue
-		}
-		// Word got corrected into something unknown. Ignore it
-	}
-	io.WriteString(buf, s[first:])
-}
-
 // ReplaceGo is a specialized routine for correcting Golang source files.
 // Currently only checks comments, not identifiers for spelling.
 func (r *Replacer) ReplaceGo(input string) (string, []Diff) {
@@ -235,4 +182,57 @@ func (r *Replacer) ReplaceReader(raw io.Reader, w io.Writer, next func(Diff)) er
 		r.recheckLine(line, lineNum, w, next)
 	}
 	return nil
+}
+
+/*
+line1 and line2 are different
+extract words from each line1
+
+replace word -> newword
+if word == new-word
+
+	continue
+
+if new-word in list of replacements
+
+	continue
+
+new word not original, and not in list of replacements some substring got mixed up.  UNdo.
+*/
+func (r *Replacer) recheckLine(s string, lineNum int, buf io.Writer, next func(Diff)) {
+	first := 0
+	redacted := RemoveNotWords(s)
+
+	idx := wordRegexp.FindAllStringIndex(redacted, -1)
+	for _, ab := range idx {
+		word := s[ab[0]:ab[1]]
+		newword := r.engine.Replace(word)
+		if newword == word {
+			// no replacement done
+			continue
+		}
+
+		// ignore camelCase words
+		// https://github.com/client9/misspell/issues/113
+		if CaseStyle(word) == CaseUnknown {
+			continue
+		}
+
+		if StringEqualFold(r.corrected[strings.ToLower(word)], newword) {
+			// word got corrected into something we know
+			io.WriteString(buf, s[first:ab[0]])
+			io.WriteString(buf, newword)
+			first = ab[1]
+			next(Diff{
+				FullLine:  s,
+				Line:      lineNum,
+				Original:  word,
+				Corrected: newword,
+				Column:    ab[0],
+			})
+			continue
+		}
+		// Word got corrected into something unknown. Ignore it
+	}
+	io.WriteString(buf, s[first:])
 }

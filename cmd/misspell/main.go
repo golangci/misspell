@@ -124,7 +124,7 @@ func main() {
 	case "UK", "GB":
 		r.AddRuleList(misspell.DictBritish)
 	case "NZ", "AU", "CA":
-		log.Fatalf("Help wanted.  https://github.com/client9/misspell/issues/6")
+		log.Fatalf("Help wanted.")
 	default:
 		log.Fatalf("Unknown locale: %q", *locale)
 	}

@@ -546,11 +546,11 @@
     "acheivments",
     "achievemnts",
     "achievments",
-    "achivements"
+    "achivements",
+    "achievemts",
+    "achievents"
   ],
   "achieves": [
-    "achievemts",
-    "achievents",
     "achieveds",
     "acheives"
   ],
@@ -625,7 +625,9 @@
     "aqquaintance",
     "acquaintace",
     "aquaintance",
-    "aquiantance"
+    "aquiantance",
+    "acquantiance",
+    "acquiantance"
   ],
   "acquaintances": [
     "acquaintences",
@@ -636,9 +638,7 @@
     "acquiantences",
     "aqcuaintances",
     "aqquaintances",
-    "acquaintaces",
-    "acquantiance",
-    "acquiantance"
+    "acquaintaces"
   ],
   "acquainted": [
     "accquainted",
@@ -872,7 +872,6 @@
     "adjustabe"
   ],
   "administer": [
-    "administored",
     "administren",
     "administrer",
     "administres",
@@ -884,6 +883,7 @@
     "administr"
   ],
   "administered": [
+    "administored",
     "adminsitered",
     "administerd",
     "adminstered",
@@ -1692,9 +1692,7 @@
   ],
   "aluminium": [
     "alimunium",
-    "aluminim"
-  ],
-  "aluminum": [
+    "aluminim",
     "aluminimum",
     "alumnium",
     "alunimum"
@@ -1746,14 +1744,14 @@
   "amendment": [
     "admendment",
     "ammendment",
-    "amendmant"
+    "amendmant",
+    "amendmet"
   ],
   "amendments": [
     "amendmenters",
     "ammendments",
     "amendmants",
-    "amendmends",
-    "amendmet"
+    "amendmends"
   ],
   "america": [
     "amercia"
@@ -2068,14 +2066,14 @@
   "announcement": [
     "annoucnement",
     "announcemnt",
-    "anouncement"
+    "anouncement",
+    "announcemet"
   ],
   "announcements": [
     "annoucnements",
     "annoucenment",
     "announcemnet",
-    "announcemnts",
-    "announcemet"
+    "announcemnts"
   ],
   "announcers": [
     "annonceurs",
@@ -2328,12 +2326,12 @@
   ],
   "apartment": [
     "appartment",
-    "aparment"
+    "aparment",
+    "apartmet"
   ],
   "apartments": [
     "appartments",
-    "apartmens",
-    "apartmet"
+    "apartmens"
   ],
   "apennines": [
     "appenines",
@@ -2508,7 +2506,8 @@
     "apprecaite",
     "appreicate",
     "appretiate",
-    "appriciate"
+    "appriciate",
+    "appreciae"
   ],
   "appreciated": [
     "apperciated",
@@ -2526,8 +2525,7 @@
     "appreciste",
     "apprecitae",
     "appriceate",
-    "appriecate",
-    "appreciae"
+    "appriecate"
   ],
   "appreciating": [
     "appreciateing",
@@ -2730,13 +2728,14 @@
     "archimedian"
   ],
   "architect": [
-    "architechts",
+    "architecte",
     "archictect",
     "architecht",
     "archetect",
     "architet"
   ],
   "architects": [
+    "architechts",
     "architectes",
     "archetects",
     "architechs",
@@ -2765,8 +2764,7 @@
     "architecutre",
     "architexture",
     "arcitechture",
-    "architecure",
-    "architecte"
+    "architecure"
   ],
   "architectures": [
     "architechtures"

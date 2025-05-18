@@ -20,8 +20,10 @@ If all criteria are met, a word can be added to the list of misspellings.
 
 The word should be added to one of the following files.
 
-- `cmd/gen/sources/main.json`: common words.
-- `cmd/gen/sources/uk.json`: UK only words.
-- `cmd/gen/sources/us.json`: US only words.
+- `internal/gen/sources/main.json`: common words.
+- `internal/gen/sources/uk.json`: UK only words.
+- `internal/gen/sources/us.json`: US only words.
+
+The target `make generate` will generate the Go files.
 
 The PR description must provide all the information (links) about the misspelling frequency.

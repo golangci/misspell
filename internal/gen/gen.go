@@ -32,17 +32,17 @@ func main() {
 		"words.go": {
 			Name:    "Main",
 			Comment: "is the main rule set, not including locale-specific spellings",
-			Path:    "cmd/gen/sources/main.json",
+			Path:    "internal/gen/sources/main.json",
 		},
 		"words_uk.go": {
 			Name:    "British",
 			Comment: "converts US spellings to UK spellings",
-			Path:    "cmd/gen/sources/uk.json",
+			Path:    "internal/gen/sources/uk.json",
 		},
 		"words_us.go": {
 			Name:    "American",
 			Comment: "converts UK spellings to US spellings",
-			Path:    "cmd/gen/sources/us.json",
+			Path:    "internal/gen/sources/us.json",
 		},
 	}
 

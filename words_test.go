@@ -45,7 +45,7 @@ func Test_word_sort(t *testing.T) {
 			t.Parallel()
 
 			if len(test.dict)%2 == 1 {
-				t.Errorf("Dictionary is a not a multiple of 2")
+				t.Errorf("Dictionary is not a multiple of 2")
 			}
 
 			words := make([]string, 0, len(test.dict)/2)

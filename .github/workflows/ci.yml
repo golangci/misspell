@@ -36,6 +36,13 @@ jobs:
           git diff --exit-code go.mod
           git diff --exit-code go.sum
 
+      - name: Check generated files
+        run: |
+          make generate
+          git diff --exit-code words.go
+          git diff --exit-code words_uk.go
+          git diff --exit-code words_us.go
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v7
         with:

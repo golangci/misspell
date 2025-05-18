@@ -12,9 +12,9 @@ The list of words must contain only common mistakes.
 Before adding a word, you should have information about the misspelling frequency.
 
 - [ ] more than 15k inside GitHub (this limit is arbitrary and can involve)
-- [ ] don't exist inside the Wiktionary (as a modern form)
-- [ ] don't exist inside the Cambridge Dictionary (as a modern form)
-- [ ] don't exist inside the Oxford Dictionary (as a modern form)
+- [ ] don't exist inside the [Wiktionary](https://en.wiktionary.org/wiki/) (as a modern form) 
+- [ ] don't exist inside the [Cambridge Dictionary](https://dictionary.cambridge.org) (as a modern form)
+- [ ] don't exist inside the [Oxford Dictionary](https://www.oed.com/search/dictionary/) (as a modern form)
 
 If all criteria are met, a word can be added to the list of misspellings.
 

@@ -49,7 +49,7 @@ Usage of misspell:
   -error
         Exit with 2 if misspelling found
   -f string
-        'csv', 'sqlite3' or custom Golang template for output
+        'csv', 'sqlite3' or custom Go template for output
   -i string
         ignore the following corrections, comma-separated
   -j int
@@ -89,7 +89,7 @@ To use misspell with [pre-commit](https://pre-commit.com/), add the following to
 * [Automatic Corrections](#correct)
 * [Converting UK spellings to US](#locale)
 * [Using pipes and stdin](#stdin)
-* [Golang special support](#golang)
+* [Go special support](#golang)
 * [CSV Output](#csv)
 * [Using SQLite3](#sqlite)
 * [Changing output format](#output)
@@ -192,10 +192,10 @@ zebra
 ```
 
 <a name="golang"></a>
-### Are there special rules for golang source files?
+### Are there special rules for Go source files?
 
-yes, if you want to force a file to be checked as a golang source, use `-source=go` on the command line.  
-Conversely, you can check a golang source as if it were pure text by using `-source=text`.  
+Yes, if you want to force a file to be checked as a Go source, use `-source=go` on the command line.  
+Conversely, you can check a Go source as if it was pure text by using `-source=text`.  
 You might want to do this since many variable names have misspellings in them!
 
 ### Can I check only-comments in other programming languages?
@@ -252,7 +252,7 @@ misspell -f sqlite * | sqlite3 -init /dev/stdin -column -cmd '.width 60 15' ':me
 ```
 
 <a name="ignore"></a>
-### How can I ignore rules?
+### How can I ignore the rules?
 
 Using the `-i "comma,separated,rules"` flag you can specify corrections to ignore.
 
@@ -266,7 +266,7 @@ With debug mode on, you can see it print the corrections, but it will no longer 
 <a name="output"></a>
 ### How can I change the output format?
 
-Using the `-f template` flag you can pass in a [golang text template](https://golang.org/pkg/text/template/) to format the output.
+Using the `-f template` flag you can pass in a [Go text template](https://golang.org/pkg/text/template/) to format the output.
 
 One can use `printf "%q" VALUE` to safely quote a value.
 
@@ -290,7 +290,7 @@ This corrects commonly misspelled English words in computer source code, and oth
 It is designed to run quickly,
 so it can be used as a [pre-commit hook](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) with minimal burden on the developer.
 
-It does not work with binary formats (e.g. Word, etc.).
+It does not work with binary formats (e.g., Word, etc.).
 
 It is not a complete spell-checking program nor a grammar checker.
 
@@ -303,9 +303,9 @@ Some other misspelling correctors:
 * https://github.com/lyda/misspell-check
 * https://github.com/lucasdemarchi/codespell
 
-They all work but had problems that prevented me from using them at scale:
+They all work but have problems that prevented me from using them at scale:
 
-* slow, all of the above check one misspelling at a time (i.e. linear) using regexps
+* slow, all of the above check one misspelling at a time (i.e., linear) using regexps
 * not MIT/Apache2 licensed (or equivalent)
 * have dependencies that don't work for me (Python3, Bash, GNU sed, etc.)
 * don't understand American vs. British English and sometimes makes unwelcome "corrections"
@@ -318,7 +318,7 @@ That said, they might be perfect for you and many have more features than this p
 Misspell is easily 100x to 1000x faster than other spelling correctors.  
 You should be able to check and correct 1000 files in under 250ms.
 
-This uses the mighty power of golang's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
+This uses the mighty power of Go's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
 which is an implementation or variation of the [Aho–Corasick algorithm](https://en.wikipedia.org/wiki/Aho–Corasick_algorithm).
 This makes multiple substring matches *simultaneously*.
 
@@ -337,7 +337,7 @@ Since it operates in parallel to make corrections,
 it can be non-obvious to determine exactly what word was corrected.
 
 <a name="debug"></a>
-### It's making mistakes.  How can I debug?
+### It's making mistakes. How can I debug?
 
 Run using `-debug` flag on the file you want.  
 It should then print what word it is trying to correct.  
@@ -345,7 +345,7 @@ Then [file a bug](https://github.com/golangci/misspell/issues) describing the pr
 Thanks!
 
 <a name="missing"></a>
-### Why is it making mistakes or missing items in golang files?
+### Why is it making mistakes or missing items in Go files?
 
 The matching function is *case-sensitive*,
 so variable names that are multiple worlds either in all-uppercase or all-lowercase case sometimes can cause false positives.  
@@ -360,7 +360,7 @@ You can check your code using [golint](https://github.com/golang/lint)
 
 The main code is [MIT](https://github.com/golangci/misspell/blob/head/LICENSE).
 
-Misspell also makes uses of the Golang standard library and contains a modified version of Golang's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
+Misspell also makes use of the Go standard library and contains a modified version of Go's [strings.Replacer](https://golang.org/pkg/strings/#Replacer)
 which is covered under a [BSD License](https://github.com/golang/go/blob/head/LICENSE).  
 Type `misspell -legal` for more details or see [legal.go](https://github.com/golangci/misspell/blob/head/legal.go)
 
@@ -371,9 +371,9 @@ It started with a word list from
 [Wikipedia](https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/For_machines).
 Unfortunately, this list had to be highly edited as many of the words are obsolete or based on mistakes on mechanical typewriters (I'm guessing).
 
-Additional words were added based on actually mistakes seen in the wild (meaning self-generated).
+Additional words were added based on actual mistakes seen in the wild (meaning self-generated).
 
-Variations of UK and US spellings are based on many sources including:
+Variations of UK and US spellings are based on many sources, including:
 
 * [Comprehensive* list of American and British spelling differences (archive)](https://web.archive.org/web/20230326222449/http://tysto.com/uk-us-spelling-list.html) (with heavy editing, many are incorrect)
 * [American and British spelling (archive)](https://web.archive.org/web/20160820231624/http://www.oxforddictionaries.com/us/words/american-and-british-spelling-american) (excellent site but incomplete)
@@ -388,14 +388,10 @@ Corrections and help welcome.
 
 Here are some ideas for enhancements:
 
-*Capitalization of proper nouns* could be done (e.g. weekday and month names, country names, language names)
-
-*Opinionated US spellings*   US English has a number of words with alternate spellings.  
+- Capitalization of proper nouns: could be done (e.g., weekday and month names, country names, language names)
+- Opinionated US spellings: US English has a number of words with alternate spellings.  
 Think [adviser vs. advisor](http://grammarist.com/spelling/adviser-advisor/).  
-While "advisor" is not wrong, the opinionated US  locale would correct "advisor" to "adviser".
-
-*Versioning*  Some type of versioning is needed so reporting mistakes and errors is easier.
-
-*Feedback*  Mistakes would be sent to some server for aggregation and feedback review.
-
-*Contractions and Apostrophes* This would optionally correct "isnt" to "isn't", etc.
+While "advisor" is not wrong, the opinionated US locale would correct "advisor" to "adviser".
+- Versioning: Some type of versioning is needed, so reporting mistakes and errors is easier.
+- Feedback: Mistakes would be sent to some server for aggregation and feedback review.
+- Contractions and Apostrophes: This would optionally correct "isnt" to "isn't", etc.

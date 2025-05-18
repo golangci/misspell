@@ -1339,7 +1339,6 @@ var DictAmerican = []string{
 	"amortise", "amortize",
 	"analogue", "analog",
 	"analysed", "analyzed",
-	"analyses", "analyzes",
 	"armoured", "armored",
 	"armourer", "armorer",
 	"artefact", "artifact",

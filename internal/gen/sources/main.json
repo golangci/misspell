@@ -1501,6 +1501,7 @@
     "alligned"
   ],
   "alignment": [
+    "allignment",
     "alignemnt",
     "alingment"
   ],
@@ -2764,10 +2765,14 @@
     "architecutre",
     "architexture",
     "arcitechture",
+    "archtecture",
     "architecure"
   ],
   "architectures": [
     "architechtures"
+  ],
+  "archive": [
+    "arcive"
   ],
   "argentina": [
     "argentinia",
@@ -8600,6 +8605,7 @@
     "configuraiton",
     "konfiguration",
     "configuraton",
+    "configration",
     "configurato"
   ],
   "configurations": [
@@ -9098,6 +9104,7 @@
     "constanst",
     "constasnt",
     "constans",
+    "contants",
     "constast"
   ],
   "constellation": [
@@ -17364,7 +17371,9 @@
   "frequency": [
     "frequencey",
     "freqeuncy",
-    "frequeny"
+    "freqency",
+    "frequeny",
+    "frquency"
   ],
   "frequently": [
     "frequentily"
@@ -20111,7 +20120,8 @@
     "implementatin"
   ],
   "implemented": [
-    "implimented"
+    "implimented",
+    "implmented"
   ],
   "implementing": [
     "implamenting",
@@ -22252,6 +22262,7 @@
   "interrupt": [
     "interprut",
     "intrerupt",
+    "interrut",
     "interupt"
   ],
   "interrupted": [
@@ -27907,7 +27918,8 @@
     "onborad"
   ],
   "only": [
-    "onyl"
+    "onyl",
+    "onlu"
   ],
   "onslaught": [
     "onlsaught",
@@ -33841,6 +33853,7 @@
     "reflektion",
     "reflextion",
     "relfection",
+    "refection",
     "reflecto"
   ],
   "reflections": [

@@ -2,12 +2,8 @@ package misspell
 
 import (
 	"cmp"
-	"maps"
-	"os"
-	"path/filepath"
 	"slices"
 	"sort"
-	"strconv"
 	"testing"
 )
 
@@ -123,83 +119,6 @@ func Test_consistent_dictionaries(t *testing.T) {
 			for _, tuple := range uniq {
 				t.Logf("%s\t\t%s\n", tuple.Typo, tuple.Correction)
 			}
-		})
-	}
-}
-
-func TestGenerateJSONFromDicts(t *testing.T) {
-	dstDir := filepath.Join("cmd", "gen", "sources")
-
-	err := os.RemoveAll(dstDir)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	err = os.MkdirAll(dstDir, os.ModePerm)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	testCases := []struct {
-		desc     string
-		dict     []string
-		filename string
-	}{
-		{
-			desc:     "main",
-			dict:     DictMain,
-			filename: "main.json",
-		},
-		{
-			desc:     "UK",
-			dict:     DictBritish,
-			filename: "uk.json",
-		},
-		{
-			desc:     "US",
-			dict:     DictAmerican,
-			filename: "us.json",
-		},
-	}
-
-	for _, test := range testCases {
-		t.Run(test.desc, func(t *testing.T) {
-			t.Parallel()
-
-			m := make(map[string][]string)
-
-			for i := 0; i < len(test.dict); i += 2 {
-				m[test.dict[i+1]] = append(m[test.dict[i+1]], test.dict[i])
-			}
-
-			file, err := os.Create(filepath.Join(dstDir, test.filename))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			defer func() {
-				_ = file.Close()
-			}()
-
-			_, _ = file.WriteString("{\n")
-			for i, k := range slices.Sorted(maps.Keys(m)) {
-				_, _ = file.WriteString("  " + strconv.Quote(k) + ": [\n")
-
-				for j, s := range m[k] {
-					_, _ = file.WriteString("  " + "  " + strconv.Quote(s))
-					if j < len(m[k])-1 {
-						_, _ = file.WriteString(",")
-					}
-					_, _ = file.WriteString("\n")
-				}
-
-				_, _ = file.WriteString("  " + "]")
-				if i < len(m)-1 {
-					_, _ = file.WriteString(",")
-				}
-				_, _ = file.WriteString("\n")
-			}
-			_, _ = file.WriteString("}\n")
 		})
 	}
 }

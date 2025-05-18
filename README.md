@@ -375,9 +375,9 @@ Additional words were added based on actually mistakes seen in the wild (meaning
 
 Variations of UK and US spellings are based on many sources including:
 
-* http://www.tysto.com/uk-us-spelling-list.html (with heavy editing, many are incorrect)
-* http://www.oxforddictionaries.com/us/words/american-and-british-spelling-american (excellent site but incomplete)
-* Diffing US and UK [scowl dictionaries](http://wordlist.aspell.net)
+* [Comprehensive* list of American and British spelling differences (archive)](https://web.archive.org/web/20230326222449/http://tysto.com/uk-us-spelling-list.html) (with heavy editing, many are incorrect)
+* [American and British spelling (archive)](https://web.archive.org/web/20160820231624/http://www.oxforddictionaries.com/us/words/american-and-british-spelling-american) (excellent site but incomplete)
+* Diffing US and UK [SCOWL dictionaries](http://wordlist.aspell.net)
 
 American English is more accepting of spelling variations than is British English,
 so "what is American or not" is subject to opinion.

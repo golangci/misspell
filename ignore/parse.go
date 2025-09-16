@@ -7,6 +7,7 @@ import (
 // Parse reads in a gitignore file and returns a Matcher.
 func Parse(src []byte) (*MultiMatch, error) {
 	var matchers []Matcher
+
 	lines := bytes.Split(src, []byte{'\n'})
 
 	for _, line := range lines {

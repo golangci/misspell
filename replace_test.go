@@ -16,6 +16,7 @@ func TestReplaceIgnore(t *testing.T) {
 		r := New()
 		r.RemoveRule(strings.Split(tt.ignore, ","))
 		r.Compile()
+
 		got, _ := r.Replace(tt.text)
 		if got != tt.text {
 			t.Errorf("%d: Replace files want %q got %q", line, tt.text, got)
@@ -90,6 +91,7 @@ func TestCheckReplace(t *testing.T) {
 		}
 
 		s := "nothing at all"
+
 		news, diffs := r.Replace(s)
 		if s != news || len(diffs) != 0 {
 			t.Errorf("Basic recheck failed: %q vs %q", s, news)
@@ -124,6 +126,7 @@ func TestCheckReplace(t *testing.T) {
 		for _, test := range testCases {
 			orig := test.orig
 			expected := test.expected
+
 			t.Run(orig, func(t *testing.T) {
 				t.Parallel()
 
@@ -149,6 +152,7 @@ func TestCheckReplace(t *testing.T) {
 		}
 
 		s := "food pruning"
+
 		news, _ := r.Replace(s)
 		if news != s {
 			t.Errorf("incorrect.Correctedacement failed: %q vs %q", s, news)

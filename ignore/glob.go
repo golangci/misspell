@@ -38,6 +38,7 @@ func (mm *MultiMatch) Match(arg string) bool {
 	// true, false -> true
 	// true, true -> false
 	use := false
+
 	for _, m := range mm.matchers {
 		if m.Match(arg) {
 			use = m.True()
@@ -69,9 +70,11 @@ func NewGlobMatch(arg []byte) (*GlobMatch, error) {
 		truth = false
 		arg = arg[1:]
 	}
+
 	if bytes.IndexByte(arg, '/') == -1 {
 		return NewBaseGlobMatch(string(arg), truth)
 	}
+
 	return NewPathGlobMatch(string(arg), truth)
 }
 
@@ -82,6 +85,7 @@ func NewBaseGlobMatch(arg string, truth bool) (*GlobMatch, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &GlobMatch{orig: arg, matcher: g, normal: truth}, nil
 }
 
@@ -98,6 +102,7 @@ func NewPathGlobMatch(arg string, truth bool) (*GlobMatch, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return &GlobMatch{orig: arg, matcher: g, normal: truth}, nil
 }
 
@@ -107,7 +112,7 @@ func (g *GlobMatch) True() bool { return g.normal }
 
 // MarshalText is really a debug function.
 func (g *GlobMatch) MarshalText() ([]byte, error) {
-	return []byte(fmt.Sprintf("\"%s: %v %s\"", "GlobMatch", g.normal, g.orig)), nil
+	return fmt.Appendf(nil, `"%s: %v %s"`, "GlobMatch", g.normal, g.orig), nil
 }
 
 // Match satisfies the Matcher interface.

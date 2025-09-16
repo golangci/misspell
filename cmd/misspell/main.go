@@ -90,9 +90,11 @@ func main() {
 	if *workers < 0 {
 		log.Fatalf("-j must >= 0")
 	}
+
 	if *workers == 0 {
 		*workers = runtime.NumCPU()
 	}
+
 	if *debugFlag {
 		*workers = 1
 	}
@@ -152,13 +154,16 @@ func main() {
 	// Output logger
 	//
 	var cleanup func() error
+
 	output, cleanup = newLogger(*quietFlag, *outFlag)
+
 	defer func() { _ = cleanup() }()
 
 	//
 	// Custom output format
 	//
 	var err error
+
 	defaultWrite, defaultRead, err = createTemplates(*format)
 	if err != nil {
 		log.Fatal(err)
@@ -176,14 +181,18 @@ func main() {
 	r.Compile()
 
 	args := flag.Args()
+
 	debug.Printf("initialization complete in %v", time.Since(t))
 
 	// stdin/stdout
 	if len(args) == 0 {
 		// If we are working with pipes/stdin/stdout there is no concurrency,
 		// so we can directly send data to the writers.
-		var fileOut io.Writer
-		var errOut io.Writer
+		var (
+			fileOut io.Writer
+			errOut  io.Writer
+		)
+
 		switch *writeit {
 		case true:
 			// If we are writing the corrected stream,
@@ -250,12 +259,15 @@ func main() {
 			if err == nil && !info.IsDir() {
 				c <- path
 			}
+
 			return nil
 		})
 	}
+
 	close(c)
 
 	count := 0
+
 	for range *workers {
 		changed := <-results
 		count += changed
@@ -273,6 +285,7 @@ func main() {
 
 func worker(writeit bool, r *misspell.Replacer, mode string, files <-chan string, results chan<- int) {
 	count := 0
+
 	for filename := range files {
 		orig, err := misspell.ReadTextFile(filename)
 		if err != nil {
@@ -286,8 +299,10 @@ func worker(writeit bool, r *misspell.Replacer, mode string, files <-chan string
 
 		debug.Printf("Processing %s", filename)
 
-		var updated string
-		var changes []misspell.Diff
+		var (
+			updated string
+			changes []misspell.Diff
+		)
 
 		if mode == "go" {
 			updated, changes = r.ReplaceGo(orig)
@@ -324,6 +339,7 @@ func worker(writeit bool, r *misspell.Replacer, mode string, files <-chan string
 			os.WriteFile(filename, []byte(updated), 0)
 		}
 	}
+
 	results <- count
 }
 
@@ -332,6 +348,7 @@ func readUserDict(userDictPath string) ([]string, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to load user defined corrections %q: %w", userDictPath, err)
 	}
+
 	defer func() { _ = file.Close() }()
 
 	reader := csv.NewReader(file)
@@ -365,11 +382,13 @@ func createTemplates(format string) (writeTmpl, readTmpl *template.Template, err
 		if err != nil {
 			return nil, nil, fmt.Errorf("unable to compile log format: %w", err)
 		}
+
 		return tmpl, tmpl, nil
 
 	default: // format == ""
 		writeTmpl = template.Must(template.New("defaultWrite").Parse(defaultWriteTmpl))
 		readTmpl = template.Must(template.New("defaultRead").Parse(defaultReadTmpl))
+
 		return
 	}
 }
@@ -393,6 +412,7 @@ func newLogger(quiet bool, outputPath string) (logger *log.Logger, cleanup func(
 		if err != nil {
 			log.Fatalf("unable to create outfile %q: %s", outputPath, err)
 		}
+
 		return log.New(fo, "", 0), fo.Close
 	}
 

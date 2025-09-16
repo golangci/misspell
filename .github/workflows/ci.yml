@@ -15,18 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GO_VERSION: stable
-      GOLANGCI_LINT_VERSION: v2.1
+      GOLANGCI_LINT_VERSION: v2.4
       CGO_ENABLED: 0
 
     steps:
 
       # https://github.com/marketplace/actions/checkout
       - name: Check out code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # https://github.com/marketplace/actions/setup-go-environment
       - name: Set up Go ${{ env.GO_VERSION }}
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ env.GO_VERSION }}
 
@@ -44,7 +44,7 @@ jobs:
           git diff --exit-code words_us.go
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v7
+        uses: golangci/golangci-lint-action@v8
         with:
           version: ${{ env.GOLANGCI_LINT_VERSION }}
 

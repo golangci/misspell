@@ -19642,6 +19642,7 @@ var DictMain = []string{
 	"repulican", "republican",
 	"repulisve", "repulsive",
 	"repuslive", "repulsive",
+	"requiered", "required",
 	"resaurant", "restaurant",
 	"researchs", "researchers",
 	"resembels", "resembles",

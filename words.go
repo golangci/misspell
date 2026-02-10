@@ -26750,6 +26750,7 @@ var DictMain = []string{
 	"requeim", "requiem",
 	"requime", "requiem",
 	"requred", "required",
+	"requrie", "require",
 	"resapwn", "respawn",
 	"rescuse", "rescues",
 	"resembe", "resemble",

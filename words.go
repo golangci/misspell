@@ -23716,7 +23716,6 @@ var DictMain = []string{
 	"republis", "republics",
 	"repulics", "republics",
 	"repulsie", "repulsive",
-	"requiere", "require",
 	"requiers", "requires",
 	"requieum", "requiem",
 	"requilme", "requiem",

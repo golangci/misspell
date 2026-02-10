@@ -265,14 +265,15 @@ func (r *genericReplacer) WriteString(w io.Writer, s string) (n int, err error) 
 			n += wn
 
 			if err != nil {
-				return
+				return n, err
 			}
+
 			// debug helper: log.Printf("%d: Going to correct %q with %q", i, s[i:i+keylen], val)
 			wn, err = sw.WriteString(val)
 			n += wn
 
 			if err != nil {
-				return
+				return n, err
 			}
 
 			i += keylen
@@ -289,7 +290,7 @@ func (r *genericReplacer) WriteString(w io.Writer, s string) (n int, err error) 
 		n += wn
 	}
 
-	return
+	return n, err
 }
 
 func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen int, found bool) {
@@ -329,7 +330,7 @@ func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen 
 		}
 	}
 
-	return
+	return val, keylen, found
 }
 
 type appendSliceWriter []byte

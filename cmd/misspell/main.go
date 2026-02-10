@@ -72,6 +72,7 @@ func main() {
 
 		showLegal = flag.Bool("legal", false, "Show legal information and exit")
 	)
+
 	flag.Parse()
 
 	if *showVersion {
@@ -378,7 +379,9 @@ func createTemplates(format string) (writeTmpl, readTmpl *template.Template, err
 		return tmpl, tmpl, nil
 
 	case format != "":
-		tmpl, err := template.New("custom").Parse(format)
+		var tmpl *template.Template
+
+		tmpl, err = template.New("custom").Parse(format)
 		if err != nil {
 			return nil, nil, fmt.Errorf("unable to compile log format: %w", err)
 		}
@@ -389,7 +392,7 @@ func createTemplates(format string) (writeTmpl, readTmpl *template.Template, err
 		writeTmpl = template.Must(template.New("defaultWrite").Parse(defaultWriteTmpl))
 		readTmpl = template.Must(template.New("defaultRead").Parse(defaultReadTmpl))
 
-		return
+		return writeTmpl, readTmpl, err
 	}
 }
 

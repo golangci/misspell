@@ -8,6 +8,8 @@ on:
     branches:
       - main
 
+permissions: {}
+
 jobs:
 
   check-code:
@@ -15,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GO_VERSION: stable
-      GOLANGCI_LINT_VERSION: v2.8
+      GOLANGCI_LINT_VERSION: v2.11
       CGO_ENABLED: 0
 
     steps:
@@ -23,6 +25,8 @@ jobs:
       # https://github.com/marketplace/actions/checkout
       - name: Check out code
         uses: actions/checkout@v6
+        with:
+          persist-credentials: false
 
       # https://github.com/marketplace/actions/setup-go-environment
       - name: Set up Go ${{ env.GO_VERSION }}
@@ -32,9 +36,7 @@ jobs:
 
       - name: Check and get dependencies
         run: |
-          go mod tidy
-          git diff --exit-code go.mod
-          git diff --exit-code go.sum
+          go mod tidy --diff
 
       - name: Check generated files
         run: |
@@ -44,7 +46,7 @@ jobs:
           git diff --exit-code words_us.go
 
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v8
+        uses: golangci/golangci-lint-action@v9
         with:
           version: ${{ env.GOLANGCI_LINT_VERSION }}
 
@@ -61,6 +63,8 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
       - name: Check installation script
         run: cat ./install-misspell.sh | sh -s -- -d -b "./install-misspell"

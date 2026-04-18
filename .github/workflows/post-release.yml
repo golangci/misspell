@@ -5,6 +5,8 @@ on:
     types:
       - published
 
+permissions: {}
+
 jobs:
   check-install-script:
     name: Installation script (remote)

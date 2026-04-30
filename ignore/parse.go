@@ -8,9 +8,9 @@ import (
 func Parse(src []byte) (*MultiMatch, error) {
 	var matchers []Matcher
 
-	lines := bytes.Split(src, []byte{'\n'})
+	lines := bytes.SplitSeq(src, []byte{'\n'})
 
-	for _, line := range lines {
+	for line := range lines {
 		if len(line) == 0 || len(bytes.TrimSpace(line)) == 0 {
 			continue
 		}

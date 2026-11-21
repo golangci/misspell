@@ -79,7 +79,32 @@ func (r *Replacer) Compile() {
 		r.corrected[r.Replacements[i]] = r.Replacements[i+1]
 	}
 
-	r.engine = NewStringReplacer(r.Replacements...)
+	trie := makeGenericReplacer(r.Replacements)
+	r.engine = &StringReplacer{r: trie}
+
+	r.localize(trie)
+}
+
+type localeGroup struct {
+	common, regional         string
+	prefix, prefixCorrection string
+	typos                    []string
+}
+
+func (g *localeGroup) enabled(trie *genericReplacer, corrected map[string]string) bool {
+	if corrected[g.common] != g.regional || corrected[g.regional] == g.common {
+		return false
+	}
+
+	node, n := trie.lookupNode(g.common, false)
+	if node == nil {
+		return false
+	}
+
+	// A stock DictMain prefix can win before the whole regional spelling.
+	// Keep the priority of any other user-supplied prefix or exact match.
+	return (n == len(g.common) && node.value == g.regional) ||
+		(g.prefix != "" && n == len(g.prefix) && node.value == g.prefixCorrection)
 }
 
 // ReplaceGo is a specialized routine for correcting Golang source files.
@@ -198,6 +223,29 @@ func (r *Replacer) ReplaceReader(raw io.Reader, w io.Writer, next func(Diff)) er
 	}
 
 	return nil
+}
+
+func (r *Replacer) localize(trie *genericReplacer) {
+	// Check every regional spelling before rewriting any typo in the trie.
+	var active []*localeGroup
+
+	for _, groups := range [][]localeGroup{localeAmerican, localeBritish} {
+		for i := range groups {
+			if groups[i].enabled(trie, r.corrected) {
+				active = append(active, &groups[i])
+			}
+		}
+	}
+
+	for _, g := range active {
+		for _, typo := range g.typos {
+			node, n := trie.lookupNode(typo, false)
+			if node != nil && n == len(typo) && node.value == g.common && r.corrected[typo] == g.common {
+				node.value = g.regional
+				r.corrected[typo] = g.regional
+			}
+		}
+	}
 }
 
 /*

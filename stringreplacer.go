@@ -294,6 +294,15 @@ func (r *genericReplacer) WriteString(w io.Writer, s string) (n int, err error) 
 }
 
 func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen int, found bool) {
+	node, n := r.lookupNode(s, ignoreRoot)
+	if node == nil {
+		return "", 0, false
+	}
+
+	return node.value, n, true
+}
+
+func (r *genericReplacer) lookupNode(s string, ignoreRoot bool) (best *trieNode, keylen int) {
 	// Iterate down the trie to the end, and grab the value and keylen with
 	// the highest priority.
 	bestPriority := 0
@@ -303,9 +312,8 @@ func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen 
 	for node != nil {
 		if node.priority > bestPriority && (!ignoreRoot || node != &r.root) {
 			bestPriority = node.priority
-			val = node.value
+			best = node
 			keylen = n
-			found = true
 		}
 
 		if s == "" {
@@ -330,7 +338,7 @@ func (r *genericReplacer) lookup(s string, ignoreRoot bool) (val string, keylen 
 		}
 	}
 
-	return val, keylen, found
+	return best, keylen
 }
 
 type appendSliceWriter []byte

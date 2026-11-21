@@ -1,6 +1,7 @@
 package misspell
 
 import (
+	"slices"
 	"strings"
 	"testing"
 )
@@ -158,4 +159,92 @@ func TestCheckReplace(t *testing.T) {
 			t.Errorf("incorrect.Correctedacement failed: %q vs %q", s, news)
 		}
 	})
+}
+
+func TestLocaleCorrectsTyposInOnePass(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		locale []string
+		input  string
+		want   string
+	}{
+		{"US", DictAmerican, "Behvaiour", "Behavior"},
+		{"UK", DictBritish, "ARIPLANE", "AEROPLANE"},
+		{"US main prefix", DictAmerican, "Cirticise", "Criticize"},
+		{"UK main prefix", DictBritish, "Pretene", "Pretence"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := New()
+			r.AddRuleList(tc.locale)
+			r.Compile()
+
+			got, diffs := r.Replace("a " + tc.input)
+			if got != "a "+tc.want || len(diffs) != 1 {
+				t.Fatalf("Replace returned %q, %+v", got, diffs)
+			}
+
+			d := diffs[0]
+			if d.Original != tc.input || d.Corrected != tc.want || d.Line != 1 || d.Column != 2 {
+				t.Errorf("unexpected correction: %+v", d)
+			}
+
+			if again, edits := r.Replace(got); again != got || len(edits) != 0 {
+				t.Errorf("second pass returned %q, %+v", again, edits)
+			}
+		})
+	}
+}
+
+func TestLocaleRuleSelection(t *testing.T) {
+	for _, tc := range []struct {
+		name   string
+		before []string
+		after  []string
+		remove []string
+		input  string
+		want   string
+	}{
+		{name: "ignored typo", remove: []string{"behvaiour"}, input: "behvaiour", want: "behvaiour"},
+		{name: "ignored locale spelling", remove: []string{"behaviour"}, input: "behvaiour", want: "behaviour"},
+		{name: "custom prefix on regional spelling", before: []string{"beha", "abc"}, input: "behvaiour", want: "behaviour"},
+		{name: "case folded conflict", before: []string{"Behaviour", "attitude"}, input: "behvaiour", want: "behaviour"},
+		{name: "custom source", after: []string{"projecttypo", "behaviour"}, input: "projecttypo", want: "behaviour"},
+		{name: "custom chain", after: []string{"frstword", "secondword", "secondword", "thirdword"}, input: "frstword", want: "secondword"},
+		{name: "earlier conflicting locale rule", before: []string{"behaviour", "attitude"}, input: "behvaiour", want: "behaviour"},
+		{name: "later conflicting locale rule", after: []string{"behaviour", "attitude"}, input: "behvaiour", want: "behaviour"},
+		{name: "conflicting typo", before: []string{"behvaiour", "behavior"}, input: "behvaiour", want: "behvaiour"},
+		{name: "opposing locales", after: DictBritish, input: "behvaiour", want: "behaviour"},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			r := Replacer{}
+			r.AddRuleList(tc.before)
+			r.AddRuleList(DictMain)
+			r.AddRuleList(DictAmerican)
+			r.AddRuleList(tc.after)
+			r.RemoveRule(tc.remove)
+			r.Compile()
+
+			got, _ := r.Replace(tc.input)
+			if got != tc.want {
+				t.Errorf("Replace(%q) = %q, want %q", tc.input, got, tc.want)
+			}
+		})
+	}
+}
+
+func TestEditedMainRuleKeepsItsCorrection(t *testing.T) {
+	r := New()
+	i := slices.Index(r.Replacements, "teh") + 1
+	original := r.Replacements[i]
+	r.Replacements[i] = "behaviour"
+
+	t.Cleanup(func() { DictMain[i] = original })
+
+	r.AddRuleList(DictAmerican)
+	r.Compile()
+
+	got, _ := r.Replace("teh")
+	if got != "behaviour" {
+		t.Errorf("Replace returned %q, want the custom correction", got)
+	}
 }

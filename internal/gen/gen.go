@@ -46,15 +46,20 @@ func main() {
 		},
 	}
 
+	mainWords, err := read(dictionaries["words.go"].Path)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	for dest, src := range dictionaries {
-		err := generate(src, dest)
+		err := generate(src, dest, mainWords)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 }
 
-func generate(src Info, dest string) error {
+func generate(src Info, dest string, mainWords map[string][]string) error {
 	data, err := read(src.Path)
 	if err != nil {
 		return err
@@ -62,7 +67,7 @@ func generate(src Info, dest string) error {
 
 	tuples := toTuples(data)
 
-	return write(tuples, src, dest)
+	return write(tuples, src, dest, mainWords)
 }
 
 func toTuples(data map[string][]string) []Tuple {
@@ -97,7 +102,7 @@ func read(src string) (map[string][]string, error) {
 	return all, nil
 }
 
-func write(tuples []Tuple, src Info, dest string) error {
+func write(tuples []Tuple, src Info, dest string, mainWords map[string][]string) error {
 	slices.SortStableFunc(tuples, func(a, b Tuple) int {
 		if len(a.Typo) == len(b.Typo) {
 			// if words are same size, then use
@@ -115,7 +120,13 @@ func write(tuples []Tuple, src Info, dest string) error {
 
 	var buf bytes.Buffer
 
+	var groups []localeGroup
+	if src.Name != "Main" {
+		groups = localeGroups(tuples, mainWords)
+	}
+
 	err = tmpl.Execute(&buf, map[string]any{
+		"Groups":  groups,
 		"Name":    src.Name,
 		"Comment": src.Comment,
 		"Tuples":  tuples,
@@ -144,4 +155,42 @@ func write(tuples []Tuple, src Info, dest string) error {
 	}
 
 	return nil
+}
+
+type localeGroup struct {
+	Tuple
+
+	Prefix, PrefixCorrection string
+	Typos                    []string
+}
+
+func localeGroups(regional []Tuple, mainWords map[string][]string) []localeGroup {
+	mainCorrections := make(map[string]string)
+	for _, t := range toTuples(mainWords) {
+		mainCorrections[t.Typo] = t.Correction
+	}
+
+	var groups []localeGroup
+
+	for _, t := range regional {
+		typos := mainWords[t.Typo]
+		if len(typos) == 0 {
+			continue
+		}
+
+		group := localeGroup{Tuple: t, Typos: typos}
+		// DictMain orders longer keys first. Record the stock prefix that
+		// can win ahead of the regional rule when DictMain is added first.
+		for end := len(t.Typo) - 1; end > 0; end-- {
+			prefix := t.Typo[:end]
+			if correction, ok := mainCorrections[prefix]; ok {
+				group.Prefix, group.PrefixCorrection = prefix, correction
+				break
+			}
+		}
+
+		groups = append(groups, group)
+	}
+
+	return groups
 }

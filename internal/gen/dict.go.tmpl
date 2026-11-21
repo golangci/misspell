@@ -8,3 +8,13 @@ var Dict{{ .Name }} = []string{
 	"{{ $tuple.Typo }}", "{{ $tuple.Correction }}",
 {{- end }}
 }
+
+{{- if .Groups }}
+
+// Misspellings in DictMain whose corrections have a {{ .Name }} spelling.
+var locale{{ .Name }} = []localeGroup{
+{{- range .Groups }}
+	{"{{ .Typo }}", "{{ .Correction }}", "{{ .Prefix }}", "{{ .PrefixCorrection }}", []string{ {{- range .Typos }}"{{ . }}",{{ end }} }},
+{{- end }}
+}
+{{- end }}
